@@ -9,6 +9,7 @@ class Pixel{
 
 class LineDrawing{
   int x1,y1,x2,y2;
+  int gd = DETECT , gm = VGAMAX;
 public:
   LineDrawing(){x1=x2=y1=y2=0;}
   void getXY(){
@@ -17,23 +18,23 @@ public:
   }
   void DDA()
   {
-    void getXY();
+    getXY();
     initgraph(&gd,&gm,NULL);
 
   	int dx = x2-x1;
   	int dy = y2-y1;
 
-  	step = abs(dx)>abs(dy)?abs(dx):abs(dy);
+  	float step = abs(dx)>abs(dy)?abs(dx):abs(dy);
 
   	float xinc = dx/(float)step;
   	float yinc = dy/(float)step;
 
   	for(int i = 0 ; i <= step ; i++)
   	{
-  		putpixel(x,y,RED);
-  		x += xinc;
-  		y += yinc;
-  		delay(500);
+  		putpixel(x1,y1,RED);
+  		x1 += xinc;
+  		y1 += yinc;
+  		delay(50);
   	}
   	closegraph();
   }
@@ -45,6 +46,7 @@ public:
 
 int main()
 {
+  LineDrawing obj;
   int ch;
   char status;
   do {
@@ -55,15 +57,15 @@ int main()
     switch (ch) {
       case 3: exit(EXIT_SUCCESS);
       case 1:
-          void DDA();
+          obj.DDA();
       break;
       case 2:
-          void bresenham(); break;
+          obj.bresenham(); break;
       default:
         cout<<"Wrong choice !"<<endl;
     }
     cout<<"Do you want to continue ? [Y/N]"<<endl;
     cin>>status;
-  } while(status == "y" && status == "Y");
+  } while(status == 'y' || status == 'Y');
   return 0;
 }
