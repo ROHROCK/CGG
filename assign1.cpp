@@ -1,3 +1,5 @@
+//Write C++/Java program to draw line using DDA and Bresenham's algorithm .
+//Inherit pixel class and Use function overloading.
 #include<graphics.h>
 #include<iostream>
 #include<cmath>
@@ -22,20 +24,20 @@ public:
 	  ymax=getmaxy();
 	  xmid=xmax/2;
 	  ymid=ymax/2;
-	  line(xmid,0,xmid,ymax);                 
-	  line(0,ymid,xmax,ymid); 
+	  line(xmid,0,xmid,ymax);
+	  line(0,ymid,xmax,ymid);
 	  x1 = x1 + xmid;
 	  y1 = ymid - y1;
 	  x2 = x2 + xmid;
-	  y2 = ymid - y2;        
+	  y2 = ymid - y2;
   }
-  
+
   void DDA()
   {
     int gd = DETECT ,gm = VGAMAX;
     getXY();
     prepareScreen();
-    	
+
   	int dx = x2-x1;
   	int dy = y2-y1;
 
@@ -62,7 +64,7 @@ public:
     getXY();
     initgraph(&gd,&gm,NULL);
     prepareScreen();
-    
+
     dx = abs(x2-x1);
     dy = abs(y2-y1);
     x = x1;
@@ -91,10 +93,10 @@ public:
             x = x + s1;
           else
             y = y + s2;
-       
+
           e = e - (2*dx); //update the error variable
         }
-        if (exchange_flag == 1) 
+        if (exchange_flag == 1)
           y = y +s2;
         else
           x = x + s1;
@@ -106,7 +108,7 @@ public:
 
 	getchar();
   }
-	
+
 int sign(float val) {
   if(val < 0)
     return -1;
@@ -128,7 +130,7 @@ void swap(int dx ,int dy)
 
 
 int main()
-{ 
+{
   int Xmax , Ymax;
   LineDrawing obj;
   int ch;
