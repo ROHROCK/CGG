@@ -62,8 +62,7 @@ public:
     int s1=0,s2=0,exchange_flag=0,i=0;
     float x,y,dy=0 ,dx=0;
     getXY();
-    //initgraph(&gd,&gm,NULL);
-    //prepareScreen();
+    prepareScreen();
 
     dx = abs(x2-x1);
     dy = abs(y2-y1);
@@ -72,7 +71,7 @@ public:
     s1 =sign(x2-x1);
     s2 =sign(y2-y1);
 
-    //putpixel(x1,y1,RED);
+    putpixel(x1,y1,RED);
     cout<<x<<","<<y;
     if(dy > dx)
     {
@@ -102,9 +101,7 @@ public:
           x = x + s1;
 
        e = e + 2*dy; //update the error variable
-       //putpixel(x,y,BLUE);
-       cout<<x<<","<<y<<'\t';
-       cout<<"error: "<<e<<endl;;
+       putpixel(x,y,BLUE);
        i++;
       }while(i <= dx);
 
