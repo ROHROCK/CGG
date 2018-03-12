@@ -10,8 +10,8 @@
 using namespace std;
 
 class transformation{
-  int Sx,Sy,T[2];
-  int x[3],y[3]; //this will store three lines to draw a triangle
+  float Sx,Sy;
+  int x[3],y[3],T[2]; //this will store three lines to draw a triangle
   int x1[3];
   int y1[3];
 public:
@@ -62,6 +62,7 @@ public:
       line(x1[1],y1[1],x1[2],y1[2]);
       line(x1[2],y1[2],x1[0],y1[0]);
       //print the rotated cordinates
+      setcolor(RED);
       for(int i = 0 ; i < 2 ; i++)
       {
       	line(x[i],y[i],x[i+1],y[i+1]);
@@ -100,6 +101,7 @@ public:
     getS();
     prepareScreen();
     drawTriangle();
+    setcolor(RED);
     scale();
   }
   void drawTriangle()
@@ -112,8 +114,8 @@ public:
   //this code will scale the corrdinates array by getting the scale value for the user
   void scale()
   {
-    int scale[2][2] = {Sx,0,0,Sy}; //Init the scale matrix
-    int p[2][1];
+    float scale[2][2] = {Sx,0,0,Sy}; //Init the scale matrix
+    float p[2][1];
     //scaling the traingle
     for(int i = 0 ; i < 3 ; i++)
     {
@@ -147,6 +149,7 @@ public:
     prepareScreen();
     drawTriangle();
     //Draw the tanslated points
+    setcolor(RED);
     line(x1[0],y1[0],x1[1],y1[1]);
     line(x1[1],y1[1],x1[2],y1[2]);
     line(x1[2],y1[2],x1[0],y1[0]);
