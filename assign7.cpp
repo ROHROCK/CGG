@@ -2,7 +2,8 @@
 patterns such as solid , dotted , dashed , dash dot and thick*/
 #include<graphics.h>
 #include<iostream>
-
+#include<math.h>
+#define PI 3.14
 using namespace std;
 
 class LineDrawing{
@@ -33,11 +34,9 @@ public:
 
   void bresenham()
   {
-    //int gd = DETECT ,gm = VGAMAX;
     int s1=0,s2=0,exchange_flag=0,i=0;
     float x,y,dy=0 ,dx=0;
     getXY();
-    //initgraph(&gd,&gm,NULL);
     prepareScreen();
 
     dx = abs(x2-x1);
@@ -48,7 +47,6 @@ public:
     s2 =sign(y2-y1);
 
     putpixel(x1,y1,RED);
-    cout<<x<<","<<y;
     if(dy > dx)
     {
       int temp = dx;
@@ -100,7 +98,6 @@ public:
     s2 =sign(y2-y1);
 
     putpixel(x1,y1,BLUE);
-    cout<<x<<","<<y;
     if(dy > dx)
     {
       int temp = dx;
@@ -160,7 +157,6 @@ public:
     s2 =sign(y2-y1);
 
     putpixel(x1,y1,BLUE);
-    cout<<x<<","<<y;
     if(dy > dx)
     {
       int temp = dx;
@@ -193,10 +189,14 @@ public:
        if(counter < 5){
           putpixel(x,y,BLUE);// draw the line
         }
-        else if(counter >= 8){
+        else if(counter == 10  ){
           putpixel(x,y,RED);
-          counter = 0;      //draw a single pixel
+           //draw a single pixel
         }
+        else if(counter >= 15)
+          counter = 0;
+
+
        counter++;
        i++;
       }while(i <= dx);
@@ -204,7 +204,7 @@ public:
 	getch();
   closegraph();
   }
-  void bresenhamThick() // dotted line
+  void bresenhamThick(int thickness) // dotted line
   {
     int counter = 0;
     int s1=0,s2=0,exchange_flag=0,i=0;
@@ -251,6 +251,8 @@ public:
        e = e + 2*dy; //update the error variable
 
        putpixel(x,y,BLUE);// draw the line
+       // int x1 = x + thickness*cos(PI/2);
+       // int y1 = y + thickness*sin(PI/2);
        putpixel(x+0.5,y+0.5,BLUE);
        putpixel(x-0.5,y+0.5,BLUE);
        i++;
@@ -280,8 +282,9 @@ void swap(int dx ,int dy)
 int main()
 {
   int Xmax , Ymax;
+  int wx,wy,y2,xmid,x1;
   LineDrawing obj;
-  int ch;
+  int ch,thick;
   char status;
   do {
     cout<<"1.Draw Plain Line"<<endl;
@@ -302,7 +305,26 @@ int main()
      case 4:
           obj.bresenhamDotted_Dash(); break;
      case 5:
-          obj.bresenhamThick(); break;
+    //  cout<<"Enter Thickness: ";
+    //  cin>>th;
+    //  ls.bresenhamThick(x1,y1,x2,y2,0);
+    //  if((y2-y1)/(x2-x1) <1)
+    //  {
+    //  wy=(th-1)*sqrt(pow((x2-x1),2)+pow((y2-y1),2))/(2*abs(x2-x1));
+    //   for(int i=0;i<wy;i++){
+    //    obj.bresenhamThick(x1,y1-i,x2,y2-i,wy);
+    //    obj.bresenhamThick(x1,y1+i,x2,y2+i,wy);
+    //   }
+    //  }
+    // else{
+    //      wx=(th-1)*sqrt(pow((x2-x1),2)+pow((y2-y1),2))/(2*abs(y2-y1));
+    //     for(int i=0;i<wx;i++)
+    //     {
+    //       obj.bresenhamThick(x1-i,y1,x2-i,y2,wx);
+    //       obj.bresenhamThick(x1+i,y1,x2+i,y2,wx);
+    //     }
+    //   }
+      break;
 
       default:
         cout<<"Wrong choice !"<<endl;

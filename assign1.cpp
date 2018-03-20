@@ -15,6 +15,10 @@ public:
     cout<<"Enter the Co-ordinates for Line: "<<endl;
     cin>>x1>>y1>>x2>>y2;
   }
+
+  /*
+  Common for all program
+  */
   void prepareScreen()
   {
 	  int xmax,ymax,xmid,ymid;
