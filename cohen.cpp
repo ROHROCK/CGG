@@ -55,6 +55,11 @@ public:
     line(min.x,max.y,min.x,min.y);
     getch();
   }
+
+  //program to accept the number of sides and place .
+  void getPolyCo_ordinates(){
+  }
+  
 };
 
 int main()
@@ -63,6 +68,7 @@ int main()
   obj.getClippingCoOrdinates();
   obj.prepareScreen();
   obj.drawClippingWindow();
+  obj.getPolyCo_ordinates()
   //draw the polygon
   return 0;
 }
