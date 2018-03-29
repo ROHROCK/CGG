@@ -76,7 +76,6 @@ public:
     s2 =sign(y2-y1);
 
     putpixel(x1,y1,RED);
-    cout<<x<<","<<y;
     if(dy > dx)
     {
       int temp = dx;
@@ -110,6 +109,7 @@ public:
       }while(i <= dx);
 
 	getchar();
+  closegraph();
   }
 
 int sign(float val) {
