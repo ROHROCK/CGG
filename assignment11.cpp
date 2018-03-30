@@ -1,4 +1,3 @@
-
 #include<graphics.h>
 #include<stdlib.h>
 #include<math.h>

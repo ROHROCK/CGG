@@ -28,8 +28,8 @@ public:
 	  ymax=getmaxy();
 	  xmid=xmax/2;
 	  ymid=ymax/2;
-	  line(xmid,0,xmid,ymax);
-	  line(0,ymid,xmax,ymid);
+	  line(xmid,0,xmid,ymax); //draw horizontal line
+	  line(0,ymid,xmax,ymid); //draw vertical line
 	  x1 = x1 + xmid;
 	  y1 = ymid - y1;
 	  x2 = x2 + xmid;
@@ -38,7 +38,6 @@ public:
 
   void DDA()
   {
-    int gd = DETECT ,gm = VGAMAX;
     getXY();
     prepareScreen();
 
@@ -123,11 +122,12 @@ int sign(float val) {
 
 void swap(int dx ,int dy)
 {
-  int temp;
+     int temp;
      temp = dx;
      dx = dy;
      dy = temp;
 }
+
 };
 
 

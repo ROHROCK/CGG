@@ -59,7 +59,7 @@ public:
   //program to accept the number of sides and place .
   void getPolyCo_ordinates(){
   }
-  
+
 };
 
 int main()

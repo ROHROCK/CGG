@@ -28,6 +28,7 @@ public class ballbounce extends JPanel{
   public void paint(Graphics g){
     super.paint(g);
     g.fillOval(x,y,50,50); // our ball 50 X 50
+    g.fillOval(x+50,y+50,50,50);
   }
 
   public static void main(String[] args) throws InterruptedException{
