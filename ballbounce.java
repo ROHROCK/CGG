@@ -1,6 +1,6 @@
 import javax.swing.JPanel;
 import javax.swing.JFrame;
-import java.awt.Graphics;
+import java.awt.*;
 
 public class ballbounce extends JPanel{
 
@@ -28,6 +28,8 @@ public class ballbounce extends JPanel{
   public void paint(Graphics g){
     super.paint(g);
     g.fillOval(x,y,50,50); // our ball 50 X 50
+    g.setColor(Color.RED);
+    g.fillOval(x+30,y+30,50,50); //for the second ball!
   }
 
   public static void main(String[] args) throws InterruptedException{
