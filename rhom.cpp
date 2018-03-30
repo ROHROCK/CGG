@@ -5,42 +5,103 @@
 using namespace std;
 
 class transformation{
-  int XRhom,YRhom; //co-ordinates for X and Y rhombus
-  int XETri[4],YETrip[4]; //co-ordinates for X and Y triangle
+  int XR[4],YR[4]; //co-ordinates for X and Y rhombus
+  int XETri[4],YETri[4]; //co-ordinates for X and Y triangle
+  int i;
+  int Rhom[4][2];
 public:
   void getRhom()
   {
+    int XRhom,YRhom;
     int l,b;
-    cout<<"Enter the vertex points for Rhombus: "<<endl;
+    cout<<"Enter the intial points for Rhombus: "<<endl;
     cin>>XRhom>>YRhom;
     cout<<"Enter the length: "<<endl;
     cin>>l;
     cout<<"Enter the breadth: "<<endl;
     cin>>b;
-    int X[]
-    prepareScreen();
-    line(XRhom,YRhom,XRhom+20,b);
-    line(XRhom+20,b,XRhom+l+20,b);
-    line(XRhom+l+20,b,XRhom+l,YRhom);
-    line(XRhom+l,YRhom,XRhom,YRhom);
-    getch();
-    closegraph();
+
+    //Storing the appropiate co-ordinates in array
+    XR[0]=XRhom;YR[0]=YRhom;
+    XR[1]=XRhom;YR[1]=YRhom-b;
+    XR[2]=XRhom+l,YR[2]=YRhom-b;
+    XR[3]=XRhom+l,YR[3]=YRhom;
+    Rhom[0][0]=  XR[0];
+    Rhom[0][1]=YR[0];
+    Rhom[1][0]=XR[1];
+    Rhom[1][1]=YR[1];
+    Rhom[2][0]=XR[2];
+    Rhom[2][1]=YR[2];
+    Rhom[3][0]=XR[3];
+    Rhom[3][1]=YR[3];
   }
   //Code to shear
   void XShear()
   {
-    //XShearing
     int xs;
+    getRhom();
     cout<<"Enter the X Shearing value: "<<endl;
     cin>>xs;
+    prepareScreen();
+    for(i = 0 ; i < 3 ; i++)
+      line(Rhom[i][0],Rhom[i][1],Rhom[i+1][0],Rhom[i+1][1]);
 
-    int XShearMat[][]
+    line(Rhom[i][0],Rhom[i][1],Rhom[0][0],Rhom[0][1]); //Last
+    //XShearing
+
+    float XShearMat[2][2] ={{1,0},{xs,1}};
+    int mult[4][2]={0};
+    // Multiplying matrix a and b and storing in array mult.
+   for(int i = 0; i < 4; ++i)
+       for(int j = 0; j < 2; ++j)
+           for(int k = 0; k < 2; ++k)
+           {
+               mult[i][j] += Rhom[i][k] * XShearMat[k][j];
+           }
+
+    //After Shearing
+    //For drawing rhombus on the screen
+    setcolor(RED);
+    for(i = 0 ; i < 3 ; i++)
+      line(mult[i][0],mult[i][1],mult[i+1][0],mult[i+1][1]);
+
+    line(mult[i][0],mult[i][1],mult[0][0],mult[0][1]); //Last
+    getch();
+    closegraph();
+
   }
   void YShear()
   {
     int ys;
-    cout<<"Enter the y Shearing value: "<<endl;
+    getRhom();
+    cout<<"Enter the X Shearing value: "<<endl;
     cin>>ys;
+    prepareScreen();
+    for(i = 0 ; i < 3 ; i++)
+      line(Rhom[i][0],Rhom[i][1],Rhom[i+1][0],Rhom[i+1][1]);
+
+    line(Rhom[i][0],Rhom[i][1],Rhom[0][0],Rhom[0][1]); //Last
+    //XShearing
+
+    float XShearMat[2][2] ={{1,ys},{0,1}};
+    int mult[4][2]={0};
+    // Multiplying matrix a and b and storing in array mult.
+   for(int i = 0; i < 4; ++i)
+       for(int j = 0; j < 2; ++j)
+           for(int k = 0; k < 2; ++k)
+           {
+               mult[i][j] += Rhom[i][k] * XShearMat[k][j];
+           }
+
+    //After Shearing
+    //For drawing rhombus on the screen
+    setcolor(RED);
+    for(i = 0 ; i < 3 ; i++)
+      line(mult[i][0],mult[i][1],mult[i+1][0],mult[i+1][1]);
+
+    line(mult[i][0],mult[i][1],mult[0][0],mult[0][1]); //Last
+    getch();
+    closegraph();
 
   }
   void prepareScreen()
@@ -48,14 +109,6 @@ public:
 		int xmax,ymax,xmid,ymid;
 		int gd = DETECT ,gm = VGAMAX;
 		initgraph(&gd,&gm,NULL);
-		// xmax=getmaxx();
-		// ymax=getmaxy();
-		// xmid=xmax/2;
-		// ymid=ymax/2;
-		// line(xmid,0,xmid,ymax);
-		// line(0,ymid,xmax,ymid);
-		// xc = xc + xmid; //xmid value taken from the graphics lib and calculate the the centre of the circle x pos
-		// yc = ymid - yc; //ymid value taken from the graphics lib
 	}
 };
 
@@ -79,9 +132,30 @@ int main()
     switch (ch) {
       case 10: exit(EXIT_SUCCESS);
       case 1:
-				dc.getRhom();
+				dc.XShear();
       break;
-
+      case 2:
+        dc.YShear();
+      break;
+      case 3:
+        dc.XTriShear();
+      break;
+      case 4:
+        dc.YTriShear();
+      break;
+      case 5:
+        dc.RotateTri();
+      break;
+      case 6:
+        dc.RotateRhom();
+      break;
+      case 7:
+        dc.ScaleRhom();
+      break;
+      case 8:
+        sc.ScaleTri();
+      break;
+      
       default:
         cout<<"Wrong choice !"<<endl;
     }
