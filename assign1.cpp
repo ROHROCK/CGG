@@ -28,8 +28,8 @@ public:
 	  ymax=getmaxy();
 	  xmid=xmax/2;
 	  ymid=ymax/2;
-	  line(xmid,0,xmid,ymax);
-	  line(0,ymid,xmax,ymid);
+	  line(xmid,0,xmid,ymax); //draw horizontal line
+	  line(0,ymid,xmax,ymid); //draw vertical line
 	  x1 = x1 + xmid;
 	  y1 = ymid - y1;
 	  x2 = x2 + xmid;
@@ -38,7 +38,6 @@ public:
 
   void DDA()
   {
-    int gd = DETECT ,gm = VGAMAX;
     getXY();
     prepareScreen();
 
@@ -76,7 +75,6 @@ public:
     s2 =sign(y2-y1);
 
     putpixel(x1,y1,RED);
-    cout<<x<<","<<y;
     if(dy > dx)
     {
       int temp = dx;
@@ -110,6 +108,7 @@ public:
       }while(i <= dx);
 
 	getchar();
+  closegraph();
   }
 
 int sign(float val) {
@@ -123,11 +122,12 @@ int sign(float val) {
 
 void swap(int dx ,int dy)
 {
-  int temp;
+     int temp;
      temp = dx;
      dx = dy;
      dy = temp;
 }
+
 };
 
 
