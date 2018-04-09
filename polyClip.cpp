@@ -1,142 +1,115 @@
+//Cohen sutherland polyclipping
 #include<iostream>
 #include<graphics.h>
+#include<stdio.h>
+
 using namespace std;
 
-class Clip{
-    int MAX;
-    int poly_size;
+typedef struct edge{
+  int xco,yco;
+}EDG;
+
+typedef struct window{
+  int xc,yc;
+}WIN;
+int i , indx;
+EDG ed[30]; //For edge
+WIN wi[4]; //Window
+
+//--------------------
+class clipp{
 public:
-  Clip(){MAX = 5;}
-  //Returns X-value of point of intersection of two line
-  int x_intersect(int x1,int y1,int x2,int y2,int x3,int y3,int x4,int y4)
-  {
-      int num = (x1*y2 - y1*x2) * (x3-x4) - (x1-x2) *(x3*y4 - y3*x4);
-      int den = (x1-x2) * (y3-y4) - (y1-y2) * (x3-x4);
-      if(den == 0)
-      {
-            cout<<"Error ! X"<<endl;
-            exit(EXIT_SUCCESS);
-      }
-      return num/den;
-  }
+    int button,x,y;
+    int edg_count;
+    EDG edpt[50],edpt1[50];
 
-  //Returns Y-Values of point of intersection of two Line
-  int y_intersect(int x1,int y1,int x2,int y2,int x3,int y3,int x4 , int y4)
+    void accept_window();
+    void draw_window();
+    void init_graph();
+    void accept_poly();
+    void suth_hodge();
+}
+
+//Main logic to modify
+clipp::suth_hodge()
+{
+  int i = 0,j = 1, k = 0;
+  int interx,intery; //intercept x and intercept y
+  //considering the left boundary
+  for(int i = 0 ; i <= edg_count ; i++)
   {
-    int num = (x1*y2 - y1*x2) * (y3-y4) -  (y1-y2) * (x3*y4 - y3*x4);
-    int den = (x1-x2) * (y3-y4) - (y1-y2) * (x3-x4);
-    if(den == 0)
+    if(ed[i].xco < wi[1].xc && ed[i+1].xco > wi[1].xc) //outside to inside
+    //check if edge is outside from the left boundary and
     {
-          cout<<"Error Y!"<<endl;
-          exit(EXIT_SUCCESS);
-    }
-    return num/den;
-  }
-
-  //main logic of the program !
-  void clip(int poly_points[][2],int x1,int y1,int x2,int y2)
-  {
-    int new_points[MAX][2],new_poly_size;
-    //(ix,iy), (kx,ky) are the co-ordinates values of the points
-    for(int i = 0 ; i < poly_size ; i++)
+      interx = wi[1].xc;
+      intery = (((wi[1].xc-ed[i].xco)*(ed[i].yco-ed[i+1].yco))/(ed[i].xco-ed[i+1].xco))+ed[i].yco;
+      circle(interx,intery,2);
+      edpt[j].xco = interx;
+      edpt[j].yco = intery;
+      j++;
+      edpt[j].xco = edi[i+1].xco;
+      edpt[j].yco = edi[i+1].yco;
+      circle(edpt[j].xco,edpt[j].yco,2);
+      j++;
+    }else if(ed[i].xco > wi[1].xc && edi[i+1].xco > wi[1].xc) //inside to inside
     {
-      //i and k form a line in polygon
-      int k = (int)(i+1) % poly_size; //intersection end points
-      //Init the starting points and the end points for polygon
-      int ix = poly_points[i][0],iy = poly_points[i][1];
-      int kx = poly_points[k][0],ky = poly_points[k][1];
-
-      //Calculate pos of first points w.r.t. clipper line
-      int i_pos = (int)(x2-x1) * (iy-y1) - (y2-y1) * (ix-x1);
-
-      //Calculate pos of second points w.r.t. clipper Line
-      int k_pos = (int)(x2-x1)*(ky-y1)-(y2-y1)*(kx-x1);
-
-      //Case 1: When both points are inside !
-      if(i_pos < 0 && k_pos < 0)
-      {
-          //Only second point is added !
-          new_points[new_poly_size][0] = kx;
-          new_points[new_poly_size][1] = ky;
-          new_poly_size++;
-      }
-      //Case 2 : When only first point is outside
-      else if(i_pos >= 0 && k_pos < 0)
-      {
-        //Point of instersection with edge and the second point
-        //is added
-        new_points[new_poly_size][0] = x_intersect(x1,y1,x2,y2,ix,iy,kx,ky);
-        new_points[new_poly_size][1] = y_intersect(x1,y1,x2,y2,ix,iy,kx,ky);
-        new_poly_size++;
-        //Second point
-        new_points[new_poly_size][0] = kx; //place the second x point
-        new_points[new_poly_size][1] = ky; //place the second y point
-        new_poly_size++;
-      }//Case 3: When only second point is outside
-      else if(i_pos < 0 && k_pos >= 0){
-        //Only point of intersection with edge is added
-        new_points[new_poly_size][0] = x_intersect(x1,y1,x2,y2,ix,iy,kx,ky);
-        new_points[new_poly_size][1] = y_intersect(x1,y1,x2,y2,ix,iy,kx,ky);
-        new_poly_size++;
-      }
-      //Case 4: When both the points are outside
-      else{
-          //No points are added !
-      }
-
-      //Update the new vertex co-ordinates
-      poly_size = new_poly_size;
-      for(int i = 0 ; i < poly_size ; i++)
-      {
-        poly_points[i][0] = new_points[i][0];
-        poly_points[i][1] = new_points[i][1];
-      }
+      edpt[j].xco = ed[i+1].xco;
+      edpt[j].yco = ed[i+1].yco;
+      circle(edpt[j].xco,edpt[j].yco,2);
+      j++;
+    }else if(ed[i].xco > wi[1].xc && edi[i+1].xco < wi[i].xc) //inside to outside
+    {
+      interx = wi[1].xc;
+      intery = (((wi[1].xc - ed[i].xco )*(ed[i].yco - ed[i+1].yco))/(ed[i].xco - ed[i+1].xco))+ed[i].yco;
+      edpt[j].xco = interx;
+      edpt[j].yco = intery;
+      circle(edpt[j].xco , edpt[j].yco,2);
+      j++;
     }
   }
-  //Main control function
-  void sutherClip(int poly_points[][2],int poly_size,int clipper_points[][2],int clipper_size)
-  {
-    int i;
-    //i and k are two consecutive indexs
-    for(int i = 0 ; i < clipper_size ; i++) //run number of vertex in clipper window
-    {
-      int k = (int)(i+1)%clipper_size; //this will calculate upto which vertices it will intersect clockwise direction
 
-      //We pass the current array of vertices , it's size and end points of the selected clipper line
-      clip(poly_points,clipper_points[i][0],clipper_points[i][1],clipper_points[k][0],clipper_points[k][1]);
+  draw_window();
+  setcolor(WHITE);
+  //Disp tehe left clip poly
+  outtextxy(150,80,"Left clip Polygon will be: ");
+
+  //Draw the polygon
+  for(int i = 1; i < j ; i++)
+    line(edpt[i].xco,edpt[i].yco,edpt[i+1].xco,edpt[i+1].yco);
+
+  line(edpt[i].xco,edpt[i].yco,edpt[1].xco,edpt[1].yco);
+  edpt[j].xco = edpt[1].xco;
+  edpt[j].yco = edpt[1].yco;
+  getch();  //considering the right boundary
+  k = 1;
+
+  for(i = 1 ; i < j ; i++)
+  {
+    if(edpt[i].xco < wi[2].xc && edpt[i+1].xco > wi[2].xc){
+      //inside to outside
+      interx = wi[2].xc;
+      intery = (((wi[2].xc - ed[i].xco )*(ed[i].yco - ed[i+1].yco))/(ed[i].xco - ed[i+1].xco))+ed[i].yco;
+      edpt1[k].xco = interx;
+      edpt1[k].yco = intery;
+      circle(edpt1[k].xco,edpt1[k].yco,2);
+      k++;
     }
-    prepareScreen();
-    //Print the vertices of clipped polygon
-    for(int i = 0 ; i < poly_size-1;i++)
-      line(poly_points[i][0],poly_points[i][1],poly_points[i+1][0],poly_points[i+1][1]);
 
-    line(poly_points[i][0],poly_points[i][1],poly_points[0][0],poly_points[0][1]); //final line to be drawn
+    if(edpt[i].xco > wi[2].xc && edpt[i+1].xco < wi[2].xc)
+    {
+      //outside to inside
+      interx = wi[2].xc;
+      intery = (((wi[2].xc - ed[i].xco )*(ed[i].yco - ed[i+1].yco))/(ed[i].xco - ed[i+1].xco))+ed[i].yco;
+      edpt1[k].xco = interx;
+      edpt1[k].yco = intery;
+      circle(edpt1[k].xco,edpt1[k].yco,2);
+      k++;
+      edpt1[k].xco = edpt[i+1].xco;
+      edpt1[k].yco = edpt[i+1].yco;
+      circle(edpt1[k].xco,edpt1[k].yco,2);
+      k++;
+    }
 
-    getch();
-    closegraph();
+    //inside outside code page 4-44
   }
-  void prepareScreen()
-  {
-    int xmax,ymax,xmid,ymid;
-    int gd = DETECT ,gm = VGAMAX;
-    initgraph(&gd,&gm,NULL);
-  }
-};
-
-int main(){
-    Clip obj;
-  // Defining polygon vertices in clockwise order
-   int poly_size = 3;
-   int poly_points[20][2] = {{100,150}, {200,250},
-                             {300,200}};
-
-   // Defining clipper polygon vertices in clockwise order
-   // 1st Example with square clipper
-   int clipper_size = 4;
-   int clipper_points[][2] = {{150,150}, {150,200},
-                             {200,200}, {200,150} };
-
-                             //Calling the clipping function
-    obj.sutherClip(poly_points, poly_size, clipper_points,clipper_size);
-  return 0;
 }

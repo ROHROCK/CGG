@@ -25,16 +25,6 @@ public:
 	  int xmax,ymax,xmid,ymid;
 	  int gd = DETECT ,gm = VGAMAX;
 	  initgraph(&gd,&gm,NULL);
-	  // xmax=getmaxx();
-	  // ymax=getmaxy();
-	  // xmid=xmax/2;
-	  // ymid=ymax/2;
-	  // line(xmid,0,xmid,ymax);
-	  // line(0,ymid,xmax,ymid);
-	  // x1 = x1 + xmid;
-	  // y1 = ymid - y1;
-	  // x2 = x2 + xmid;
-	  // y2 = ymid - y2;
   }
   void drawTriangle()
   {

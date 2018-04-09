@@ -61,7 +61,6 @@ public:
   }
   void bresenham()
   {
-    //int gd = DETECT ,gm = VGAMAX;
     int s1=0,s2=0,exchange_flag=0,i=0;
     float x,y,dy=0 ,dx=0;
     getXY();
@@ -107,7 +106,7 @@ public:
        i++;
       }while(i <= dx);
 
-	getchar();
+  getchar();
   closegraph();
   }
 

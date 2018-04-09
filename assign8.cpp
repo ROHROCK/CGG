@@ -30,23 +30,19 @@ void hilbert(int r,int d,int l,int u,int i,int h,int &x,int &y) //where r = righ
   {
     i--;
     hilbert(d,r,u,l,i,h,x,y);
-    delay(10);
     move(r,h,x,y); // j = 2
     hilbert(r,d,l,u,i,h,x,y);
-    delay(10);
     move(d,h,x,y); // j = 3
     hilbert(r,d,l,u,i,h,x,y);
-    delay(10);
     move(l,h,x,y); // j = 4
     hilbert(u,l,d,r,i,h,x,y);
-    delay(10);
   }
 }
 
 int main()
 {
   int n,x1,y1;
-  int x0=0,y0=0,x,y,h=5,r=2,d=3,l=4,u=1;
+  int x0=10,y0=10,x,y,h=10,r=2,d=3,l=4,u=1;
 
   cout<<"\nGive the iteration of n: ";
   cin>>n;

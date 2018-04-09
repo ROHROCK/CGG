@@ -85,8 +85,9 @@ public:
     cout<<"Enter the co-ordinates for triangle: "<<endl;
     for(int i = 0 ; i < 3 ; i++)
     {
-      cout<<"Enter the x and y co-ordinates"<<i+1<<": "<<endl;
-      cin>>x[i]>>y[i];
+        cout<<"Enter the x co-ordinates"<<i+1<<": "<<endl;
+        cin>>points[i][0]>>points[i][1];
+      }
     }
   }
   void getS(){
@@ -107,38 +108,30 @@ public:
   void drawTriangle()
   {
     //code to draw a triangle
-    line(x[0],y[0],x[1],y[1]);
-    line(x[1],y[1],x[2],y[2]);
-    line(x[2],y[2],x[0],y[0]);
+    int result[3][2]={100,200,200,100,300,200};
+    line(result[0][0],result[0][1],result[1][0],result[1][1]);
+    line(result[1][0],result[1][1],result[2][0],result[2][1]);
+    line(result[2][0],result[2][1],result[0][0],result[0][1]);
   }
   //this code will scale the corrdinates array by getting the scale value for the user
   void scale()
   {
     float scale[2][2] = {Sx,0,0,Sy}; //Init the scale matrix
-    float p[2][1];
-    //scaling the traingle
-    for(int i = 0 ; i < 3 ; i++)
+    float result[3][2]={0};
+    float vectors[3][2]={100,200,200,100,300,200}; //
+    for(int i = 0 ; i < 3 ; i ++) //row 1
     {
-      p[0][0] = x[i];
-      p[1][0] = y[i];
-
-      int temp[2][1] = {0};
-      for(int a = 0 ; a < 2; a++)
-        for(int j = 0 ; j < 1 ; j++)
-          for(int k = 0 ; k < 2 ; k++)
-            temp[a][j] += (p[k][j] * scale[a][k]);
-
-      p[0][0] = temp[0][0];
-      p[1][0] = temp[1][0];
-
-      x[i] = p[0][0];
-      y[i] = p[1][0];
+      for(int j = 0 ; j < 2 ; j ++) // col 2
+      {
+        for(int k = 0 ; k < 2 ; k++) //row 2
+          result[i][j] += vectors[i][k] * scale[k][j];
+      }
     }
 
     //After Scaling
-    line(x[0],y[0],x[1],y[1]);
-    line(x[1],y[1],x[2],y[2]);
-    line(x[2],y[2],x[0],y[0]);
+    line(result[0][0],result[0][1],result[1][0],result[1][1]);
+    line(result[1][0],result[1][1],result[2][0],result[2][1]);
+    line(result[2][0],result[2][1],result[0][0],result[0][1]);
     getch();
     closegraph();
   }
@@ -175,7 +168,7 @@ int main(){
   	int ch;
     char status;
     do {
-      obj.getCo();
+      //obj.getCo();
       cout<<"1.Scaling of Object: "<<endl;
   		cout<<"2.Translation of Object:  "<<endl;
       cout<<"3.Rotation of Object"<<endl;

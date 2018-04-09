@@ -48,14 +48,6 @@ public:
 		int xmax,ymax,xmid,ymid;
 		int gd = DETECT ,gm = VGAMAX;
 		initgraph(&gd,&gm,NULL);
-		// xmax=getmaxx();
-		// ymax=getmaxy();
-		// xmid=xmax/2;
-		// ymid=ymax/2;
-		// line(xmid,0,xmid,ymax);
-		// line(0,ymid,xmax,ymid);
-		// xc = xc + xmid; //xmid value taken from the graphics lib and calculate the the centre of the circle x pos
-		// yc = ymid - yc; //ymid value taken from the graphics lib
 	}
 };
 

@@ -41,24 +41,32 @@ public:
 			// for each pixel we will
 			// draw all eight pixels
 			putpixel(xc+x, yc+y, RED);
+			delay(100);
 			putpixel(xc-x, yc+y, BLUE);
-			putpixel(xc+x, yc-y, RED);
-			putpixel(xc-x, yc-y, RED);
-			putpixel(xc+y, yc+x, YELLOW);
+			delay(100);
+			putpixel(xc+x, yc-y, GREEN);
+			delay(100);
+			putpixel(xc-x, yc-y, YELLOW);
+			delay(100);
+			putpixel(xc+y, yc+x, WHITE);
+			delay(100);
 			putpixel(xc-y, yc+x, YELLOW);
+			delay(100);
 			putpixel(xc+y, yc-x, YELLOW);
+			delay(100);
 			putpixel(xc-y, yc-x, YELLOW);
+			delay(100);
 			x++;
 			// check for decision parameter
 			// and correspondingly
 			// update d, x, y
 			if (d > 0)
 			{
-				y--;
+				y--; //the circle will be drawn at the lower side
 				d = d + 4 * (x - y) + 10;
 			}
 			else
-				d = d + 4 * x + 6;
+				d = d + 4 * x + 6; //the circle will be drawn at the upper side 
 		}
 	}
 
@@ -99,10 +107,14 @@ int main()
 				dc.getXY();
 				dc.prepareScreen();
 				dc.drawCircleBresenham();
+				getch();
+				closegraph();
       break;
 
 			case 2:
 				dc.drawConcentric();
+				getch();
+				closegraph();
 			break;
 
       default:
